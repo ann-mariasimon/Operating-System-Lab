@@ -1,1 +1,22 @@
-
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    int rq[100],n,intial,totalhead=0,i;
+    printf("Enter the no of requests:");
+    scanf("%d",&n);
+    printf("Enter the request sequence:\n");
+    for(i=0;i<n;i++){
+        scanf("%d",&rq[i]);
+    }
+    printf("Enter the Intial head postion:");
+    scanf("%d",&intial);
+    for(i=0;i<n;i++){
+        totalhead+=abs(rq[i]-intial);
+        intial=rq[i];
+        printf("%d-> ",intial);
+    }
+    printf("\nTotal Seek Time:%d",totalhead);
+    printf("\nAverage Seek Time:%f",(float)totalhead/n);
+    return 0;
+}
