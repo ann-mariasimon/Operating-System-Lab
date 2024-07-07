@@ -1,0 +1,81 @@
+#include<stdio.h>
+#define max 30
+int main(){
+    int n,i,j,bt[max],at[max],completion[max],temp,wt[max],tat[max],p[max],pr[max];
+    int ttat=0,twt=0;
+    float atat,awt;
+    printf("Enter the No of Processes:\n");
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        printf("Enter the arrival time burst time and priority of Process-%d\n",i+1);
+        scanf("%d%d%d",&at[i],&bt[i],&pr[i]);
+        p[i]=i+1;
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i-1;j++){
+            if(at[j]>at[j+1]){
+                temp=at[j];
+                at[j]=at[j+1];
+                at[j+1]=temp;
+                
+                temp=bt[j];
+                bt[j]=bt[j+1];
+                bt[j+1]=temp;
+                
+                temp=p[j];
+                p[j]=p[j+1];
+                p[j+1]=temp;
+                
+                temp=pr[j];
+                pr[j]=pr[j+1];
+                pr[j+1]=temp;
+            }
+        }
+    }
+    wt[0]=0;
+    completion[0]=at[0]+bt[0];
+    tat[0]=bt[0];
+    
+    for(i=1;i<n;i++){
+        int min=i;
+        for(j=i+1;j<n && at[j]<=completion[i-1];j++){
+            if(pr[j]<pr[min]){
+                min=j;
+            }
+        }
+        if(min!=i){
+            temp=at[i];
+            at[i]=at[min];
+            at[min]=temp;
+            
+            temp=bt[i];
+            bt[i]=bt[min];
+            bt[min]=temp;
+            
+            temp=p[i];
+            p[i]=p[min];
+            p[min]=temp;
+            
+            temp=pr[i];
+            pr[i]=pr[min];
+            pr[min]=temp;
+        }
+        wt[i]=completion[i-1]-at[i];
+        completion[i]=completion[i-1]+bt[i];
+        tat[i]=wt[i]+bt[i];
+    }
+    for(i=0;i<n;i++){
+        twt=twt+wt[i];
+        ttat=ttat+tat[i];
+    }
+    awt=(float)twt/n;
+    atat=(float)ttat/n;
+    
+    printf("\nPR\tPRI\tAT\tBT\tWT\tCT\tTAT\n");
+    for(i=0;i<n;i++){
+        printf("\n%d\t%d\t%d\t%d\t%d\t%d\t%d\n",i+1,pr[i],at[i],bt[i],wt[i],completion[i],tat[i]);
+    }
+    printf("\nAverage Waiting Time:%f",awt);
+    printf("\nAverage TurnAround Time:%f",atat);
+    return 0;
+}
