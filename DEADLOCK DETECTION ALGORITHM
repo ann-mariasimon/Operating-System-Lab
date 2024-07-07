@@ -1,0 +1,56 @@
+#include<stdio.h>
+int deaddetection(int nr,int np,int alloc[np][nr],int req[np][nr],int avail[nr]){
+    int f[np],flag;
+    for(int i=0;i<np;i++){
+        f[i]=0;
+    }
+    for(int i=0;i<np;i++){
+        for(int j=0;j<np;j++){
+            flag=0;
+            if(f[j]==0){
+                for(int k=0;k<nr;k++){
+                    if(req[j][k]>avail[k]){
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag=0){
+                    for(int y=0;y<nr;y++){
+                        avail[y]+=alloc[j][y];
+                        f[j]=1;
+                    }
+                }
+            }
+        }
+    }
+}
+int main(){
+    int i,j,r,p,k,y;
+    printf("Enter the no of Processes:\n");
+    scanf("%d",&p);
+    printf("Enter the no of Resources:\n");
+    scanf("%d",&r);
+    int alloc[p][r],req[p][r],avail[r];
+    printf("Enter the Allocation Matrix:\n");
+    for(i=0;i<p;i++){
+        for(j=0;j<r;j++){
+            scanf("%d",&alloc[i][j]);
+        }
+    }
+    printf("Enter the Request Matrix:\n");
+    for(i=0;i<p;i++){
+        for(j=0;j<r;j++){
+            scanf("%d",&req[i][j]);
+        }
+    }
+    printf("Enter the Available Matrix:\n");
+    for(i=0;i<r;i++){
+        scanf("%d",&avail[i]);
+    }
+    if(deaddetection(r,p,alloc,req,avail)){
+        printf("\n'SAFE STATE'");
+    }
+    else
+    printf("\n'DEADLOCK DETECTED'");
+    return 0;
+}
