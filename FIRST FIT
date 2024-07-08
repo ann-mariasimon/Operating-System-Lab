@@ -1,0 +1,41 @@
+#include<stdio.h>
+int main(){
+    int bno,pno,bsize[10],flag[10],psize[10],fragment[10],i,j,allocation[10];
+    for(i=0;i<10;i++){
+        flag[i]=0;
+        allocation[i]=-1;
+    }
+    printf("Enter the block size:");
+    scanf("%d",&bno);
+    printf("Enter the Blocks:\n");
+    for(i=0;i<bno;i++){
+        scanf("%d",&bsize[i]);
+    }
+    printf("Enter the Process no:");
+    scanf("%d",&pno);
+    printf("Enter the Processes:\n");
+    for(i=0;i<pno;i++){
+        scanf("%d",&psize[i]);
+    }
+    for(i=0;i<pno;i++){
+        for(j=0;j<bno;j++){
+            if(bsize[j]>=psize[i]){
+                allocation[i]=j;
+                fragment[i]=bsize[j]-psize[i];
+                bsize[j]=0;
+                break;
+            }
+        }
+    }
+    printf("P_No\tP_Size\tB_No\tFragment\n");
+    for(i=0;i<pno;i++){
+        printf("%d\t\t%d\t\t",i+1,psize[i]);
+        if(allocation[i]!=-1){
+            printf("%d\t\t%d\n",allocation[i]+1,fragment[i]);
+        }
+            else{
+            printf("-1\t\t-1\n");
+            }
+    }
+    return 0;
+}
