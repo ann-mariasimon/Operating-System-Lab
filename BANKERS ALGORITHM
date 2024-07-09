@@ -1,0 +1,65 @@
+#include<stdio.h>
+int main(){
+    int i,j,k,p,r,y;
+    printf("ENTER THE NO OF PROCESSES:\n");
+    scanf("%d",&p);
+    printf("ENTER THE NO OF RESOURCES:\n");
+    scanf("%d",&r);
+    int alloc[p][r],max[p][r],need[p][r],avail[r];
+    printf("ENTER THE ALLOCATION MATRIX:\n");
+    for(i=0;i<p;i++){
+        for(j=0;j<r;j++){
+            scanf("%d",&alloc[i][j]);
+        }
+    }
+    printf("ENTER THE MAX MATRIX:\n");
+    for(i=0;i<p;i++){
+        for(j=0;j<r;j++){
+            scanf("%d",&max[i][j]);
+        }
+    }
+    printf("ENTER THE AVAILABLE MATRIX:\n");
+    for(i=0;i<r;i++){
+        scanf("%d",&avail[i]);
+    }
+    int f[p],ans[p],ind=0,flag;
+    for(i=0;i<p;i++){
+        for(j=0;j<r;j++){
+            need[i][j]=max[i][j]-alloc[i][j];
+        }
+    }
+    for(i=0;i<p;i++){
+        f[i]=0;
+    }
+    for(k=0;k<p;k++){
+        for(i=0;i<p;i++){
+            
+            if(f[i]==0){
+                flag=0;
+                for(j=0;j<r;j++){
+                    if(need[i][j]>avail[j]){
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==0){
+                    ans[ind++]=i;
+                    for(y=0;y<r;y++){
+                        avail[y]+=alloc[i][y];
+                        f[i]=1;
+                    }
+                }
+            }
+        }
+    }
+    if(flag==0){
+    printf("SAFE SEQUENCE:\n");
+    for(i=0;i<=p-1;i++){
+        printf("P%d ->",ans[i]);
+    }
+    }
+    else{
+        printf("NOT SAFE STATE!");
+    
+    }
+}
