@@ -1,22 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-int main()
-{
-    int rq[100],n,intial,totalhead=0,i;
-    printf("Enter the no of requests:");
-    scanf("%d",&n);
-    printf("Enter the request sequence:\n");
-    for(i=0;i<n;i++){
-        scanf("%d",&rq[i]);
+
+void main() {
+    int n, i, diff, seek = 0;
+    printf("ENTER THE SIZE OF QUEUE\n");
+    scanf("%d", &n);
+    int queue[n + 1];
+    
+    printf("ENTER THE QUEUE:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &queue[i + 1]); 
     }
-    printf("Enter the Intial head postion:");
-    scanf("%d",&intial);
-    for(i=0;i<n;i++){
-        totalhead+=abs(rq[i]-intial);
-        intial=rq[i];
-        printf("%d-> ",intial);
+    
+    printf("ENTER THE INITIAL HEAD POSITION:\n");
+    scanf("%d", &queue[0]); 
+    
+    printf("MOVEMENT OF CYLINDERS:\n");
+    for (i = 0; i < n; i++) {
+        diff = abs(queue[i + 1] - queue[i]);
+        seek += diff;
+        printf("%d -> ", queue[i]);
     }
-    printf("\nTotal Seek Time:%d",totalhead);
-    printf("\nAverage Seek Time:%f",(float)totalhead/n);
-    return 0;
+    printf("%d\n", queue[n]);
+
+    printf("TOTAL SEEK TIME: %d\n", seek);
+    printf("AVERAGE SEEK TIME: %.2f\n", (float)seek / n); 
 }
