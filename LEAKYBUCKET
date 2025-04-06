@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+#define bucket_size 100
+int main(){
+    int stored=0;
+    int input,output,no_of_inputs;
+    printf("Enter the output rate and no of inputs:\n");
+    scanf("%d%d",&output,&no_of_inputs);
+    while(no_of_inputs>0){
+        input=(rand()%20)+1;
+        printf("\nNew Input: %d packets\n",input);
+        int remaining_space=bucket_size-stored;
+        if(input<=remaining_space){
+            stored+=input;
+            printf("Stored %d Packets. Bucket now has %d%d packets",input,stored,bucket_size);
+        }
+        else
+        {
+            stored=bucket_size;
+            printf("Bucket Overflow! Dropped %d packets.Bucket now has %d%dPackets\n",input-remaining_space,stored,bucket_size);
+        }
+        printf("SEnding out %d packets\n",output);
+        stored-=output;
+        if(stored<0)
+        stored=0;
+        printf("Bucket after output: %d%d Packet\n",stored,bucket_size);
+        sleep(1);
+        no_of_inputs--;
+    }
+    return 0;
