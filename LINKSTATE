@@ -1,0 +1,57 @@
+#include <stdio.h>
+int main(){
+    int n;
+    int source;
+    int cost[20][20];
+    int flag[20];
+    int distance[20];
+    int previous[20];
+    
+    printf("Enter the number of Routers\n");
+    scanf("%d",&n);
+    printf("Enter the Cost Matrix:\n");
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            scanf("%d",&cost[i][j]);
+            if(cost[i][j]<0)
+            cost[i][j]=10000;
+        }
+    }
+    printf("Enter the Source File:\n");
+    scanf("%d",&source);
+    for(int i=0;i<n;i++){
+        flag[i]=0;
+        distance[i]=cost[source][i];
+        previous[i]=source;
+    }
+    flag[source]=1;
+    int min_node;
+    int min_distance;
+    for(int i=0;i<n-1;i++){
+        min_distance=10000;
+        for(int j=0;j<n;j++){
+            if(!flag[j] && distance[i]<min_distance){
+                min_node=j;
+                min_distance=distance[j];
+            }
+        }
+        flag[min_node]=1;
+        for(int j=0;j<n;j++){
+        if(!flag[j] && (min_distance+cost[min_node][j]<distance[j])){
+            distance[j]=min_distance+cost[min_node][j];
+            previous[j]=min_node;
+        }
+    }
+    }
+    int temp;
+    for(int i=0;i<n;i++){
+        printf("\n\n %d --> %d\nPath Taken: %d",source,i,i);
+        temp=i;
+        while(temp!=source){
+            printf("<--%d",previous[temp]);
+            temp=previous[temp];
+        }
+        printf("\nShortest Path Cost:%d",distance[i]);
+    }
+    return 0;
+}
